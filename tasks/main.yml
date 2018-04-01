@@ -1,0 +1,121 @@
+---
+# tasks file for ansible-bootstrap_core
+
+- name: '[main] Install sudo package'
+  package: name=sudo state=present
+  become: yes
+  tags:
+    - bootstrap_core
+
+#========= CONFIGURING PROMPT ========
+# required because 'command: mv ...' will return error
+# if /etc/skel does not exist
+- name: "[main] check if /etc/skel exists"
+  stat: path=/etc/skel
+  register: skel_stat
+  tags:
+    - bootstrap_core
+
+- name: "[main] check if /etc/skel.dist exists (in case /etc/skel was already backed up)"
+  stat: path=/etc/skel.dist
+  register: skel_dist_stat
+  tags:
+    - bootstrap_core
+
+- name: "[main] Backup distro /etc/skel"
+  command: mv /etc/skel /etc/skel.dist
+  become: yes
+  when: skel_stat.stat.exists == True and skel_dist_stat.stat.exists == False
+  tags:
+    - bootstrap_core
+
+- name: "[main] Copying /etc/skel contents"
+  copy: src=etc/skel/ dest=/etc/skel
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] Copying .bashrc and .profile to home directory of current user"
+  copy: src=etc/skel/ dest="{{ ansible_env.HOME }}/"
+  tags:
+    - bootstrap_core
+#=====================================
+
+- name: "[main] Setting EDITOR and TERM environment variables"
+  blockinfile:
+    path: /etc/profile.d/env_var.sh
+    follow: yes
+    create: yes
+    mode: 0644
+    owner: root
+    group: root
+    content: |
+      export EDITOR="/usr/bin/vim"
+      export TERM="xterm-256color"  # For vim colors in tmux
+    marker: "# {mark} ======== VIM role: Ansible managed block ========="
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] Setting hostname"
+  hostname: name={{ bootstrap_core_hostname }}
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] modifying /etc/hosts"
+  replace:
+    path: /etc/hosts
+    regexp: '(127.0.0.1)( *|\t*)(localhost)(.*)'
+    replace: '\1\2{{ bootstrap_core_hostname }} \3\4'
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] Setting timezone"
+  timezone: name=America/Vancouver
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] Include {{ ansible_os_family }}-specific vars"
+  include_vars: "{{ ansible_os_family }}.yml"
+  tags:
+    - bootstrap_core
+
+- name: "[main] Include {{ ansible_os_family }}-specific tasks for generating locales, upgrading distro etc."
+  include_tasks: "{{ ansible_os_family }}.yml"
+  tags:
+    - bootstrap_core
+
+# Fully quoted because of the ':' on the line. See the Gotchas in the YAML docs.
+- name: "[main] Modify sudoers file: make sudo group members not being asked for sudo password"
+  lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%{{ bootstrap_core_su_group }}\s'
+    line: '%{{ bootstrap_core_su_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+  become: yes
+  when: bootstrap_core_sudonopasswd is defined and true
+  tags:
+    - bootstrap_core
+
+#======= CREATE SPECIFIED USERS ======
+- name: "[main] Create specified users"
+  user:
+    name: "{{ item.username }}"
+    password: "{{ item.passwd }}"
+    groups: "{{ item.groups }}"
+    shell: /bin/bash
+    append: yes
+  with_items: "{{ bootstrap_core_users }}"
+  become: yes
+  tags:
+    - bootstrap_core
+#=====================================
+
+- meta: flush_handlers
+  tags:
+    - bootstrap_core
+...

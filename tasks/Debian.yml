@@ -1,0 +1,40 @@
+---
+- name: '[Debian] Set up en_US.UTF-8 locale'
+  locale_gen:
+    name: "{{ bootstrap_core_locale }}"
+    state: present
+  become: yes
+  tags:
+    - bootstrap_core
+
+#========== DISTRO UPGRADE ===========
+- name: '[Debian] Upgrading distro'
+  apt: upgrade=dist autoclean=yes autoremove=yes
+  become: yes
+  when: ansible_os_family == 'Debian'
+  tags:
+    - bootstrap_core
+#=====================================
+
+#========= UPDATING FIRMWARE: ========
+# needs: echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+# which is done in 'expandfs' role.
+- name: '[Debian] Installing latest rpi-update'
+  apt: name=rpi-update state=latest force=yes
+  become: yes
+  when:
+    - bootstrap_core_firmware_update
+    - ansible_os_family == 'Debian'
+  tags:
+    - bootstrap_core
+
+- name: '[Debian] Updating firmware'
+  command: rpi-update
+  become: yes
+  when:
+    - bootstrap_core_firmware_update
+    - ansible_os_family == 'Debian'
+  tags:
+    - bootstrap_core
+#=====================================
+...

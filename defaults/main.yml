@@ -1,0 +1,56 @@
+---
+# defaults file for ansible-bootstrap_core
+
+# ATTENTION!
+# {{ vault_bootstrap_core_root_passwd }} and {{ vault_bootstrap_core_user0_passwd }} vars are set in vars/main.yml
+# which is encrypted with ansible-vault.
+#
+# Before running the role decrypt the file vars/main.yml with:
+#   `ansible-vault decrypt vars/main.yml --vault-password-file=/.vault.pass`
+#
+# OR set environment variable:
+# export ANSIBLE_VAULT_PASSWORD_FILE=./.vault_pass
+#
+# OR (PREFERRED):
+# add the following to ansible.cfg:
+# [defaults]
+# vault_password_file = ./.vault.key
+#
+#
+# CREATE YOUR OWN PASSWORD HASHES
+# If the .vault.pass key file is lost we ca always recreate {{ vault_bootstrap_core_new_root_passwd }}
+# and {{ vault_bootstrap_core_user0_passwd }} variables and vars/main.yml file
+#
+# NOTE:Following instructions for some reason does not work on Mac
+#
+# Generate a new hash using the following:
+# Python2.7:
+#     echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16_CHARACTER_SALT_HERE")' | python -
+#   For in-script usage (Non-interactive Mode without prompt):
+#     python -c 'import crypt; print crypt.crypt("P@$$w0rd", "$6$16_CHARACTER_SALT_HERE")'
+#
+# Python3:
+#     echo 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))' | python3 -
+#   For in-script usage (Non-interactive Mode without prompt):
+#     python3 -c 'import crypt; print(crypt.crypt("P@$$w0rd", crypt.mksalt(crypt.METHOD_SHA512)))'
+#
+# root password SHA512 hash with random salt
+bootstrap_core_new_root_passwd: {{ vault_bootstrap_core_new_root_passwd }}
+
+# user0 password SHA512 hash with random salt
+bootstrap_core_user0_passwd: {{ vault_bootstrap_core_user0_passwd }}
+
+bootstrap_core_sudonopasswd: yes
+
+bootstrap_core_users:
+  - username: 'drew'
+    passwd: "{{ bootstrap_core_user0_passwd }}"
+    groups:
+      - "{{ bootstrap_core_su_group }}"
+
+bootstrap_core_firmware_update: no
+
+bootstrap_core_hostname: raspberry.localdomain
+
+bootstrap_core_locale: en_US.UTF-8
+...
