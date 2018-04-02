@@ -68,10 +68,10 @@ Just flush the SD card as shown above. Python is already there.
 
 **ATTENTION!**
 
-`vault_bootstrap_core_root_passwd` and `vault_bootstrap_core_user0_passwd` vars are set in vars/main.yml,
+**vault_bootstrap_core_root_passwd** and **vault_bootstrap_core_user0_passwd vars** are set in *vars/main.yml*,
 which is encrypted with [ansible-vault][ansible-vault-link].
 
-Before running the role decrypt the file vars/main.yml with:
+Before running the role decrypt the file *vars/main.yml* with:
 
     ansible-vault decrypt vars/main.yml --vault-password-file=.vault.key`
 
@@ -88,10 +88,20 @@ add the following to **ansible.cfg**:
 Role Variables
 --------------
 
+| Variable | Description | Default |
+|----------|-------------|---------|
+| **bootstrap_core_new_root_passwd** | New root password (SHA512 salted hash) |`vault_bootstrap_core_new_root_passwd` |
+| **bootstrap_core_user0_passwd** | New user password (SHA512 salted hash) | `vault_bootstrap_core_user0_passwd` |
+| **bootstrap_core_sudonopasswd** | Make users from 'sudo' group stop being asked for sudo password | `yes` |
+| **bootstrap_core_users** | List of users with passwords and groups to be added to system | see [`defaults/main.yml`](defaults/main.yml) |
+| **bootstrap_core_firmware_update** | Wether to update firmware with rpi-update | `no` |
+| **bootstrap_core_hostname** | Hostname to be configured for the system | `raspberry.localdomain` |
+| **bootstrap_core_locale** | Locale to be configured | `en_US.UTF-8` |
+
 **CREATE YOUR OWN PASSWORD HASHES**
 
-If the .vault.pass key file is lost we ca always recreate {{ vault_bootstrap_core_new_root_passwd }}
-and {{ vault_bootstrap_core_user0_passwd }} variables and vars/main.yml file
+If the .vault.pass key file is lost we ca always recreate **vault_bootstrap_core_new_root_passwd**
+and **vault_bootstrap_core_user0_passwd** variables and *vars/main.yml* file
 
 NOTE:Following instructions for some reason does not work on Mac
 
@@ -102,16 +112,6 @@ Calculate SHA512 hash with salt using either Python3:
 Or Python2.7:
 
     echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16_CHARACTER_SALT_HERE")' | python -
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| **bootstrap_core_new_root_passwd** | New root password (SHA512 salted hash) |`vault_bootstrap_core_new_root_passwd` |
-| **bootstrap_core_user0_passwd** | New user password (SHA512 salted hash) | `vault_bootstrap_core_user0_passwd` |
-| **bootstrap_core_sudonopasswd** | Make users from 'sudo' group stop being asked for sudo password | `yes` |
-| **bootstrap_core_users** | List of users with passwords and groups to be added to system | see [`defaults/main.yml`](defaults/main.yml) |
-| **bootstrap_core_firmware_update** | Wether to update firmware with rpi-update | `no` |
-| **bootstrap_core_hostname** | Hostname to be configured for the system | `raspberry.localdomain` |
-| **bootstrap_core_locale** | Locale to be configured | `en_US.UTF-8` |
 
 Dependencies
 ------------
