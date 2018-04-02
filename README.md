@@ -68,7 +68,7 @@ Just flush the SD card as shown above. Python is already there.
 
 **ATTENTION!**
 
-**vault_bootstrap_core_root_passwd** and **vault_bootstrap_core_user0_passwd vars** are set in *vars/main.yml*,
+**vault_bootstrap_core_root_passwd** and **vault_bootstrap_core_user0_passwd** vars are set in *vars/main.yml*,
 which is encrypted with [ansible-vault][ansible-vault-link].
 
 Before running the role decrypt the file *vars/main.yml* with:
@@ -103,7 +103,7 @@ Role Variables
 If the .vault.pass key file is lost we ca always recreate **vault_bootstrap_core_new_root_passwd**
 and **vault_bootstrap_core_user0_passwd** variables and *vars/main.yml* file
 
-NOTE:Following instructions for some reason does not work on Mac
+NOTE: Following instructions for some reason does not work on Mac
 
 Calculate SHA512 hash with salt using either Python3:
 
