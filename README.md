@@ -85,8 +85,11 @@ add the following to **ansible.cfg**:
     [defaults]
     vault_password_file = .vault.key
 
+Role Variables
+--------------
 
-CREATE YOUR OWN PASSWORD HASHES
+**CREATE YOUR OWN PASSWORD HASHES**
+
 If the .vault.pass key file is lost we ca always recreate {{ vault_bootstrap_core_new_root_passwd }}
 and {{ vault_bootstrap_core_user0_passwd }} variables and vars/main.yml file
 
@@ -99,9 +102,6 @@ Calculate SHA512 hash with salt using either Python3:
 Or Python2.7:
 
     echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16_CHARACTER_SALT_HERE")' | python -
-
-Role Variables
---------------
 
 | Variable | Description | Default |
 |----------|-------------|---------|
