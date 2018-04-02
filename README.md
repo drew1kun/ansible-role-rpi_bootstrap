@@ -66,8 +66,9 @@ Now the host is ready for provisioning!
 Just flush the SD card as shown above. Python is already there.
 
 
-ATTENTION!
-`vault_bootstrap_core_root_passwd` and `vault_bootstrap_core_user0_passwd` vars are set in vars/main.yml
+**ATTENTION!**
+
+`vault_bootstrap_core_root_passwd` and `vault_bootstrap_core_user0_passwd` vars are set in vars/main.yml,
 which is encrypted with [ansible-vault][ansible-vault-link].
 
 Before running the role decrypt the file vars/main.yml with:
