@@ -35,10 +35,10 @@
 #     python3 -c 'import crypt; print(crypt.crypt("P@$$w0rd", crypt.mksalt(crypt.METHOD_SHA512)))'
 #
 # root password SHA512 hash with random salt
-bootstrap_core_new_root_passwd: {{ vault_bootstrap_core_new_root_passwd }}
+bootstrap_core_new_root_passwd: "{{ vault_bootstrap_core_new_root_passwd }}"
 
 # user0 password SHA512 hash with random salt
-bootstrap_core_user0_passwd: {{ vault_bootstrap_core_user0_passwd }}
+bootstrap_core_user0_passwd: "{{ vault_bootstrap_core_user0_passwd }}"
 
 bootstrap_core_sudonopasswd: yes
 
