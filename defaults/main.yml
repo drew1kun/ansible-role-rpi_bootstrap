@@ -25,7 +25,7 @@
 #
 # Generate a new hash using the following:
 # Python2.7:
-#     echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16_CHARACTER_SALT_HERE")' | python -
+#     echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16CHARACTER_SALT")' | python -
 #   For in-script usage (Non-interactive Mode without prompt):
 #     python -c 'import crypt; print crypt.crypt("P@$$w0rd", "$6$16_CHARACTER_SALT_HERE")'
 #
@@ -33,6 +33,11 @@
 #     echo 'import crypt,getpass; print(crypt.crypt(getpass.getpass(), crypt.mksalt(crypt.METHOD_SHA512)))' | python3 -
 #   For in-script usage (Non-interactive Mode without prompt):
 #     python3 -c 'import crypt; print(crypt.crypt("P@$$w0rd", crypt.mksalt(crypt.METHOD_SHA512)))'
+#
+# Alternatively, we could keep passwords in vault in plain text,
+# and use {{ 'password'|password_hash('sha512') }} filter to get SHA512 hash with random salt.
+# See https://ansible-docs.readthedocs.io/zh/stable-2.0/rst/playbooks_filters.html
+# But storing hashes even in encrypted vault adds additional security
 #
 # root password SHA512 hash with random salt
 bootstrap_core_new_root_passwd: "{{ vault_bootstrap_core_new_root_passwd }}"

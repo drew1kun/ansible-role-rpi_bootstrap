@@ -111,7 +111,7 @@ Calculate SHA512 hash with salt using either Python3:
 
 Or Python2.7:
 
-    echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16_CHARACTER_SALT_HERE")' | python -
+    echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$16CHARACTER_SALT")' | python -
 
 Dependencies
 ------------
