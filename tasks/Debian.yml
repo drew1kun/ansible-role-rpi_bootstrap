@@ -1,4 +1,5 @@
 ---
+#=========== LOCALE SETUP ============
 - name: '[Debian] Set up en_US.UTF-8 locale'
   locale_gen:
     name: "{{ bootstrap_core_locale }}"
@@ -6,6 +7,7 @@
   become: yes
   tags:
     - bootstrap_core
+#=====================================
 
 #========== DISTRO UPGRADE ===========
 - name: '[Debian] Upgrading distro'
