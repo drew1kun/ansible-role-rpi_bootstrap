@@ -55,9 +55,16 @@ After flushing the minibian image to SD Card, no need to create a user, adding t
 NOPASSWD statement.
 All this will be done automatically, just modify the variables in accordance with your needs.
 
-ssh into the host using default credentials (root:raspberry) and install ansible dependencies:
+ssh into the host using default credentials (root:raspberry) and install ansible dependencies (python).
 
-    apt-get update -y && apt-get install -y python
+Alternatively, do the updates and dependencies installation remotely with ansible `raw` module:
+
+    ansible -m raw -a "echo 'nameserver 9.9.9.9' > /etc/resolv.conf && apt-get update -y && apt-get install -y python" --user root -k rpi
+
+**rpi** - is set to your raspberry pi ip address in `hosts` file like:
+
+    [raspberrypi_3]
+    rpi ansible_ssh_host=172.16.42.8
 
 Now the host is ready for provisioning!
 
