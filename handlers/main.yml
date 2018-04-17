@@ -1,7 +1,0 @@
----
-# handlers file for bootstrap_core
-
-- name: 'Change root password'
-  user: name=root password={{ bootstrap_core_new_root_passwd }}
-  become: yes
-...

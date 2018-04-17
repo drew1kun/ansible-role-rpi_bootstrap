@@ -2,7 +2,7 @@
 # tasks file for ansible-bootstrap_core
 
 # DNS
-- name: "[main] Include dependencies installation tasks"
+- name: "[main] Include tasks from resolv.yml"
   include_tasks: resolv.yml
   tags:
     - bootstrap_core
@@ -84,7 +84,7 @@
   tags:
     - bootstrap_core
 
-#======= CREATE SPECIFIED USERS ======
+# USERS
 - name: "[main] Create specified users"
   user:
     name: "{{ item.username }}"
@@ -95,9 +95,9 @@
   become: yes
   tags:
     - bootstrap_core
-#=====================================
 
-- meta: flush_handlers
-  tags:
-    - bootstrap_core
+- name: 'Change root password'
+  user: name=root password={{ bootstrap_core_new_root_passwd }}
+  when: ansible_user_id != 'root'
+  become: yes
 ...
