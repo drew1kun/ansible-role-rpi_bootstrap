@@ -1,5 +1,5 @@
 ---
-- name: '[main] Install sudo package'
+- name: '[dependencies] Install sudo package'
   package:
     name:
       - sudo
@@ -9,6 +9,4 @@
   tags:
     - bootstrap_core
     - bootstrap_core_dependencies
-
-
 ...

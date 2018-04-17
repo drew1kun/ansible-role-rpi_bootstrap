@@ -19,8 +19,6 @@
 #=====================================
 
 #========= UPDATING FIRMWARE: ========
-# needs: echo 'nameserver 9.9.9.9' > /etc/resolv.conf
-# which is done in 'expandfs' role.
 - name: '[Debian] Installing latest rpi-update'
   apt: name=rpi-update state=latest force=yes
   become: yes

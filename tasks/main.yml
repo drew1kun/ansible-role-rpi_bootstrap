@@ -1,6 +1,14 @@
 ---
 # tasks file for ansible-bootstrap_core
-- name: "[main] include dependencies installation tasks"
+
+# needed for installing packages (rpi-update, sudo)
+- name: "[main] Temporarily set dns to 9.9.9.9 in order to resolve *.raspbian.org"
+  copy: src=resolv.conf dest=/etc/resolv.conf mode=0644 owner=root group=root
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] Include dependencies installation tasks"
   include_tasks: dependencies.yml
   tags:
     - bootstrap_core
@@ -8,13 +16,13 @@
 #========= CONFIGURING PROMPT ========
 # required because 'command: mv ...' will return error
 # if /etc/skel does not exist
-- name: "[main] check if /etc/skel exists"
+- name: "[main] Check if /etc/skel exists"
   stat: path=/etc/skel
   register: skel_stat
   tags:
     - bootstrap_core
 
-- name: "[main] check if /etc/skel.dist exists (in case /etc/skel was already backed up)"
+- name: "[main] Check if /etc/skel.dist exists (in case /etc/skel was already backed up)"
   stat: path=/etc/skel.dist
   register: skel_dist_stat
   tags:
@@ -28,13 +36,13 @@
     - bootstrap_core
 
 - name: "[main] Copying /etc/skel contents"
-  copy: src=etc/skel/ dest=/etc/skel
+  copy: src=etc_skel/ dest=/etc/skel
   become: yes
   tags:
     - bootstrap_core
 
 - name: "[main] Copying .bashrc and .profile to home directory of current user"
-  copy: src=etc/skel/ dest="{{ ansible_env.HOME }}/"
+  copy: src=etc_skel/ dest="{{ ansible_env.HOME }}/"
   tags:
     - bootstrap_core
 #=====================================
@@ -61,7 +69,7 @@
   tags:
     - bootstrap_core
 
-- name: "[main] modifying /etc/hosts"
+- name: "[main] Modifying /etc/hosts"
   replace:
     path: /etc/hosts
     regexp: '(127.0.0.1)( *|\t*)(localhost)(.*)'
