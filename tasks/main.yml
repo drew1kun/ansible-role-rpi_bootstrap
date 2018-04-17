@@ -1,52 +1,28 @@
 ---
 # tasks file for ansible-bootstrap_core
 
-# needed for installing packages (rpi-update, sudo)
-- name: "[main] Temporarily set dns to 9.9.9.9 in order to resolve *.raspbian.org"
-  copy: src=resolv.conf dest=/etc/resolv.conf mode=0644 owner=root group=root
-  become: yes
+# DNS
+- name: "[main] Include dependencies installation tasks"
+  include_tasks: resolv.yml
   tags:
     - bootstrap_core
+    - resolv
 
+# DEPENDENCIES
 - name: "[main] Include dependencies installation tasks"
   include_tasks: dependencies.yml
   tags:
     - bootstrap_core
+    - bootstrap_core_dependencies
 
-#========= CONFIGURING PROMPT ========
-# required because 'command: mv ...' will return error
-# if /etc/skel does not exist
-- name: "[main] Check if /etc/skel exists"
-  stat: path=/etc/skel
-  register: skel_stat
+# SHELL PROMPT
+- name: "[main] Include shell prompt configuration tasks"
+  include_tasks: prompt.yml
   tags:
     - bootstrap_core
+    - bootstrap_core_prompt
 
-- name: "[main] Check if /etc/skel.dist exists (in case /etc/skel was already backed up)"
-  stat: path=/etc/skel.dist
-  register: skel_dist_stat
-  tags:
-    - bootstrap_core
-
-- name: "[main] Backup distro /etc/skel"
-  command: mv /etc/skel /etc/skel.dist
-  become: yes
-  when: skel_stat.stat.exists == True and skel_dist_stat.stat.exists == False
-  tags:
-    - bootstrap_core
-
-- name: "[main] Copying /etc/skel contents"
-  copy: src=etc_skel/ dest=/etc/skel
-  become: yes
-  tags:
-    - bootstrap_core
-
-- name: "[main] Copying .bashrc and .profile to home directory of current user"
-  copy: src=etc_skel/ dest="{{ ansible_env.HOME }}/"
-  tags:
-    - bootstrap_core
-#=====================================
-
+# SYSTEM CONFIG
 - name: "[main] Setting EDITOR and TERM environment variables"
   blockinfile:
     path: /etc/profile.d/env_var.sh
@@ -84,6 +60,7 @@
   tags:
     - bootstrap_core
 
+# OS-SPECIFIC TASKS
 - name: "[main] Include {{ ansible_os_family }}-specific vars"
   include_vars: "{{ ansible_os_family }}.yml"
   tags:
