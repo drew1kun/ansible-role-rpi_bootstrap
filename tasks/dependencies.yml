@@ -9,4 +9,20 @@
   tags:
     - bootstrap_core
     - bootstrap_core_dependencies
+
+- name: '[dependencies] Install pi-bluetooth package'
+  package: name=pi-bluetooth state=present
+  become: yes
+  when: bootstrap_core_bluetooth
+  tags:
+    - bootstrap_core
+    - bootstrap_core_dependencies
+
+- name: '[dependencies] Install ralink firmware package'
+  package: name=firmware-ralink state=present
+  become: yes
+  when: bootstrap_core_ralink_firmware
+  tags:
+    - bootstrap_core
+    - bootstrap_core_dependencies
 ...

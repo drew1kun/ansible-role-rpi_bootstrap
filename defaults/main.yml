@@ -53,6 +53,10 @@ bootstrap_core_users:
     groups:
       - "{{ bootstrap_core_su_group }}"
 
+bootstrap_core_bluetooth: yes
+
+bootstrap_core_ralink_firmware: no
+
 bootstrap_core_firmware_update: no
 
 bootstrap_core_hostname: raspberry.localdomain
