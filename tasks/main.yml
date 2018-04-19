@@ -45,11 +45,22 @@
   tags:
     - bootstrap_core
 
-- name: "[main] Modifying /etc/hosts"
-  replace:
+- name: "[main] Modifying /etc/hosts (IPv4)"
+  lineinfile:
     path: /etc/hosts
     regexp: '(127.0.0.1)( *|\t*)(localhost)(.*)'
-    replace: '\1\2{{ bootstrap_core_hostname }} \3\4'
+    line: '\1\2\3 {{ bootstrap_core_hostname }}'
+    backrefs: yes
+  become: yes
+  tags:
+    - bootstrap_core
+
+- name: "[main] Modifying /etc/hosts (IPv6)"
+  lineinfile:
+    path: /etc/hosts
+    regexp: '(::1)( *|\t*)(localhost ip6-localhost ip6-loopback)(.*)'
+    line: '\1\2\3 {{ bootstrap_core_hostname }}'
+    backrefs: yes
   become: yes
   tags:
     - bootstrap_core
@@ -91,6 +102,7 @@
     password: "{{ item.passwd }}"
     groups: "{{ item.groups }}"
     append: yes
+    shell: /bin/bash
   with_items: "{{ bootstrap_core_users }}"
   become: yes
   tags:
