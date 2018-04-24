@@ -1,13 +1,6 @@
 ---
 # tasks file for ansible-bootstrap_core
 
-# DNS
-- name: "[main] Include tasks from resolv.yml"
-  include_tasks: resolv.yml
-  tags:
-    - bootstrap_core
-    - resolv
-
 # DEPENDENCIES
 - name: "[main] Include dependencies installation tasks"
   include_tasks: dependencies.yml
