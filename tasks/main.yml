@@ -98,6 +98,7 @@
     shell: /bin/bash
   with_items: "{{ bootstrap_core_users }}"
   become: yes
+  no_log: yes  # don't show password hash in output
   tags:
     - bootstrap_core
 
@@ -105,4 +106,5 @@
   user: name=root password={{ bootstrap_core_new_root_passwd }}
   when: ansible_user_id != 'root'
   become: yes
+  no_log: yes  # don't show password hash in output
 ...
