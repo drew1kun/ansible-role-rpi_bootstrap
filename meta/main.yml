@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: bootstrap_core
   author: Andrew Shagayev
 
   description: role for RaspberryPi vanilla Minibian (Debian based) distro bootstrap.
