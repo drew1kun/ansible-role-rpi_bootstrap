@@ -147,7 +147,7 @@ Author Information
 
 Andrew Shagayev | [e-mail](mailto:drewshg@gmail.com)
 
-[role-badge]: https://img.shields.io/badge/role-drew__kun.bootstrap__core-green.svg
+[role-badge]: https://img.shields.io/badge/role-drew--kun.bootstrap__core-green.svg
 [galaxy-link]: https://galaxy.ansible.com/drew_kun/bootstrap_core/
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [mit-link]: https://raw.githubusercontent.com/drew_kun/ansible-bootstrap_core/master/LICENSE
