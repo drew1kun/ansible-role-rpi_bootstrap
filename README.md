@@ -123,19 +123,19 @@ Or Python2.7:
 Dependencies
 ------------
 
- - [drew-kun.rpi_expandfs][rpi_expandfs-galaxy-link]
- - [drew-kun.rpi3_network][rpi3_network-galaxy-link]
+ - [drew_kun.rpi_expandfs][rpi_expandfs-galaxy-link]
+ - [drew_kun.rpi3_network][rpi3_network-galaxy-link]
 
 Install them from galaxy:
 
-    ansible-galaxy install drew-kun.rpi_expandfs drew-kun.rpi3_network
+    ansible-galaxy install drew_kun.rpi_expandfs drew_kun.rpi3_network
 
 Example Playbook
 ----------------
 
     - hosts: raspberrypi
       gather_facts: yes
-      roles: drew-kun.bootstrap_core
+      roles: drew_kun.bootstrap_core
 
 License
 -------
@@ -147,12 +147,12 @@ Author Information
 
 Andrew Shagayev | [e-mail](mailto:drewshg@gmail.com)
 
-[role-badge]: https://img.shields.io/badge/role-drew--kun.bootstrap__core-green.svg
-[galaxy-link]: https://galaxy.ansible.com/drew-kun/bootstrap_core/
+[role-badge]: https://img.shields.io/badge/role-drew__kun.bootstrap__core-green.svg
+[galaxy-link]: https://galaxy.ansible.com/drew_kun/bootstrap_core/
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-link]: https://raw.githubusercontent.com/drew-kun/ansible-bootstrap_core/master/LICENSE
+[mit-link]: https://raw.githubusercontent.com/drew_kun/ansible-bootstrap_core/master/LICENSE
 [minibian-link]: https://minibianpi.wordpress.com/
 [centos-link]: https://wiki.centos.org/Download
-[rpi_expandfs-galaxy-link]: https://galaxy.ansible.com/drew-kun/rpi_expandfs/
-[rpi3_network-galaxy-link]: https://galaxy.ansible.com/drew-kun/rpi3_network/
+[rpi_expandfs-galaxy-link]: https://galaxy.ansible.com/drew_kun/rpi_expandfs/
+[rpi3_network-galaxy-link]: https://galaxy.ansible.com/drew_kun/rpi3_network/
 [ansible-vault-link]: https://docs.ansible.com/ansible/latest/user_guide/vault.html
