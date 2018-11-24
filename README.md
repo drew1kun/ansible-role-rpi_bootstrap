@@ -133,9 +133,12 @@ Install them from galaxy:
 Example Playbook
 ----------------
 
-    - hosts: raspberrypi
-      gather_facts: yes
-      roles: drew_kun.bootstrap_core
+```yaml
+- hosts: raspberrypi
+  gather_facts: yes
+  roles: 
+  - drew_kun.bootstrap_core
+```
 
 License
 -------
