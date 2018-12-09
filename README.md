@@ -90,9 +90,8 @@ Role Variables
 
 **ATTENTION!**
 
-
-make sure you override the **bootstrap_core__rpi3_network_wifi_APs** var as it contains a sensitive data for your wireless networks,
-such as WPA passphrase and network ESSID...
+make sure you override the **bootstrap_core__rpi3_network_wifi_APs, bootstrap_core_new_root_passwd, bootstrap_core_user0_passwd** vars as they may contain a sensitive data,
+such as user accounts passwords, WPA passphrase and network ESSID...
 
 It is highly recommended to encrypt with [ansible-vault][ansible-vault-link].
 
@@ -112,9 +111,6 @@ add the following to **ansible.cfg**:
 
 
 **CREATE YOUR OWN PASSWORD HASHES**
-
-If the .vault.pass key file is lost we ca always recreate **vault_bootstrap_core_new_root_passwd**
-and **vault_bootstrap_core_user0_passwd** variables and *vars/main.yml* file
 
 NOTE: Following instructions for some reason does not work on Mac
 
