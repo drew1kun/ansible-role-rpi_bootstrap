@@ -1,26 +1,7 @@
 ---
 # defaults file for ansible-bootstrap_core
 
-# ATTENTION!
-# {{ vault_bootstrap_core_root_passwd }} and {{ vault_bootstrap_core_user0_passwd }} vars are set in vars/main.yml
-# which is encrypted with ansible-vault.
-#
-# Before running the role decrypt the file vars/main.yml with:
-#   `ansible-vault decrypt vars/main.yml --vault-password-file=/.vault.pass`
-#
-# OR set environment variable:
-# export ANSIBLE_VAULT_PASSWORD_FILE=./.vault_pass
-#
-# OR (PREFERRED):
-# add the following to ansible.cfg:
-# [defaults]
-# vault_password_file = ./.vault.key
-#
-#
 # CREATE YOUR OWN PASSWORD HASHES
-# If the .vault.pass key file is lost we ca always recreate {{ vault_bootstrap_core_new_root_passwd }}
-# and {{ vault_bootstrap_core_user0_passwd }} variables and vars/main.yml file
-#
 # NOTE:Following instructions for some reason does not work on Mac
 #
 # Generate a new hash using the following:
@@ -38,7 +19,7 @@
 # and use {{ 'password'|password_hash('sha512') }} filter to get SHA512 hash with random salt.
 # See https://ansible-docs.readthedocs.io/zh/stable-2.0/rst/playbooks_filters.html
 # But storing hashes even in encrypted vault adds additional security
-#
+
 # root password SHA512 hash with random salt
 bootstrap_core_new_root_passwd:
   $6$pXE2fAZd0vgD77JQ$.c6I7FAFd/b1VV3Q4fm6VKnC29eXf3X.5TR5acIJ9xr3y/Bt0umoEH.b8nX3SqcZgZ3h5uhaoqNN6EAsU69Yn.
