@@ -30,8 +30,7 @@
 #    - bootstrap_core
 #
 #- name: '[adduser.info.yml] Create specified users using "adduser" only when neither user nor its group do not exist'
-#  shell: echo "{{ item.passwd }}
-#    {{ item.passwd }}" | adduser "{{ item.username }}"
+#  shell: echo "{{ item.passwd }} | adduser "{{ item.username }}"
 #  with_items: "{{ bootstrap_core_users }}"
 #  become: yes
 #  when:

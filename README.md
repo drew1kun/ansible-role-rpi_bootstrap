@@ -73,25 +73,6 @@ Now the host is ready for provisioning!
 Just flush the SD card as shown above. Python is already there.
 
 
-**ATTENTION!**
-
-**vault_bootstrap_core_root_passwd** and **vault_bootstrap_core_user0_passwd** vars are set in *vars/main.yml*,
-which is encrypted with [ansible-vault][ansible-vault-link].
-
-Before running the role decrypt the file *vars/main.yml* with:
-
-    ansible-vault decrypt vars/main.yml --vault-password-file=.vault.key`
-
-OR set environment variable:
-
-    export ANSIBLE_VAULT_PASSWORD_FILE=.vault.key
-
-OR (PREFERRED):
-add the following to **ansible.cfg**:
-
-    [defaults]
-    vault_password_file = .vault.key
-
 Role Variables
 --------------
 
@@ -104,6 +85,31 @@ Role Variables
 | **bootstrap_core_firmware_update** | Wether to update firmware with rpi-update | `no` |
 | **bootstrap_core_hostname** | Hostname to be configured for the system | `raspberry.localdomain` |
 | **bootstrap_core_locale** | Locale to be configured | `en_US.UTF-8` |
+| **bootstrap_core__rpi3_network_wifi_APs** | this overrides the rpi3_network_wifi_APs var of rpi3_network dependency role | see [`defaults/main.yml`](defaults/main.yml) |
+
+
+**ATTENTION!**
+
+
+make sure you override the **bootstrap_core__rpi3_network_wifi_APs** var as it contains a sensitive data for your wireless networks,
+such as WPA passphrase and network ESSID...
+
+It is highly recommended to encrypt with [ansible-vault][ansible-vault-link].
+
+Before running any playbook which uses this role, decrypt the file *vars/main.yml* with:
+
+    ansible-vault decrypt vars/main.yml --vault-password-file=.vault.key
+
+OR set environment variable:
+
+    export ANSIBLE_VAULT_PASSWORD_FILE=.vault.key
+
+OR (PREFERRED):
+add the following to **ansible.cfg**:
+
+    [defaults]
+    vault_password_file = .vault.key
+
 
 **CREATE YOUR OWN PASSWORD HASHES**
 
@@ -136,8 +142,23 @@ Example Playbook
 ```yaml
 - hosts: raspberrypi
   gather_facts: yes
-  roles: 
+  roles:
   - drew_kun.bootstrap_core
+    bootstrap_core__rpi3_network_wifi_APs:
+    - id_str: home
+      hidden: no
+      essid: "{{ vault_bootstrap_core__rpi3_network_wifi_APs[0].essid }}"
+      passphrase: "{{ vault_bootstrap_core__rpi3_network_wifi_APs[0].passphrase }}"
+      priority: 10
+```
+
+*vars/vault.yml*:
+
+```yaml
+vault_bootstrap_core__rpi3_network_wifi_APs:
+# only sensitive stuff goes here:
+- essid: YourSensitiveESSID
+  passphrase: YourSecureWPA_Passphrase
 ```
 
 License

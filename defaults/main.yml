@@ -62,4 +62,16 @@ bootstrap_core_firmware_update: no
 bootstrap_core_hostname: raspberry.localdomain
 
 bootstrap_core_locale: en_US.UTF-8
+
+
+# Overriding rpi3_network role defaults
+# This is needed for passing the vault-encrypted values to network role as a dependancy from playbooks.
+# NOTE: please make sure you override this in your playbooks and encrypt all sensetive data with ansible-vault
+bootstrap_core__rpi3_network_wifi_APs:
+- id_str: home
+  hidden: no            # yes | no
+  essid: home_wifi      # requried
+  passphrase: P@$$w0rd  # can be 8-63 chars or empty (for unsecured networks)
+  priority: 10  # when multiple networks are available, the one with the highest priority value is selected
+                # if the network is unsecured, then it's priority will be -999
 ...
