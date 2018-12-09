@@ -85,7 +85,7 @@ Role Variables
 | **bootstrap_core_firmware_update** | Wether to update firmware with rpi-update | `no` |
 | **bootstrap_core_hostname** | Hostname to be configured for the system | `raspberry.localdomain` |
 | **bootstrap_core_locale** | Locale to be configured | `en_US.UTF-8` |
-| **bootstrap_core__rpi3_network_wifi_APs** | this overrides the rpi3_network_wifi_APs var of rpi3_network dependency role | see [`defaults/main.yml`](defaults/main.yml) |
+| **bootstrap_core__rpi3_network_wifi_APs** | this overrides the rpi3_network_wifi_APs var of rpi3_network dependency role | see [`defaults/main.yml`](defaults/main.yml#L70) |
 
 
 **ATTENTION!**
