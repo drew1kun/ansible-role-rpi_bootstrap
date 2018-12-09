@@ -142,6 +142,10 @@ Example Playbook
 ```yaml
 - hosts: raspberrypi
   gather_facts: yes
+  
+  vars_files:
+  - vars/vault.yml
+  
   roles:
   - drew_kun.bootstrap_core
     bootstrap_core__rpi3_network_wifi_APs:
