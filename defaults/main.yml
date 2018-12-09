@@ -40,10 +40,12 @@
 # But storing hashes even in encrypted vault adds additional security
 #
 # root password SHA512 hash with random salt
-bootstrap_core_new_root_passwd: "{{ vault_bootstrap_core_new_root_passwd }}"
+bootstrap_core_new_root_passwd:
+  $6$pXE2fAZd0vgD77JQ$.c6I7FAFd/b1VV3Q4fm6VKnC29eXf3X.5TR5acIJ9xr3y/Bt0umoEH.b8nX3SqcZgZ3h5uhaoqNN6EAsU69Yn.
 
 # user0 password SHA512 hash with random salt
-bootstrap_core_user0_passwd: "{{ vault_bootstrap_core_user0_passwd }}"
+bootstrap_core_user0_passwd:
+  $6$H7pExvH3BNgE4eFk$YWRzY/GMsfbXJK6cfx4hgR1c8ayY78ifIJMOXR91NA3xeo.T8Yb8E3SiQ2DYQLTohcX.WV1qGjGiQXdq6j5HB1
 
 bootstrap_core_sudonopasswd: yes
 
