@@ -12,7 +12,7 @@
 #  changed_when: false
 #  failed_when: false
 #  tags:
-#    - bootstrap_core
+#  - bootstrap_core
 #
 #- name: '[adduser.info.yml] Flatten bootstrap_core_users_stat dictionary'
 #  set_fact:
@@ -20,24 +20,24 @@
 #  with_items: "{{ bootstrap_core_users_stat.results }}"
 #  changed_when: false
 #  tags:
-#    - bootstrap_core
+#  - bootstrap_core
 #
 #- name: '[adduser.info.yml] Check if the group exists in the system'
 #  shell: "getent group | cut -d: -f1"
 #  register: bootstrap_core_system_groups
 #  changed_when: false
 #  tags:
-#    - bootstrap_core
+#  - bootstrap_core
 #
 #- name: '[adduser.info.yml] Create specified users using "adduser" only when neither user nor its group do not exist'
 #  shell: echo "{{ item.passwd }} | adduser "{{ item.username }}"
 #  with_items: "{{ bootstrap_core_users }}"
 #  become: yes
 #  when:
-#    - bootstrap_core_users_exist.{{ item.username }} != 0  # Produces Warning. I haven't find the way to get rid of '{'
-#    - item.username not in bootstrap_core_system_groups.stdout_lines
+#  - bootstrap_core_users_exist.{{ item.username }} != 0  # Produces Warning. I haven't find the way to get rid of '{'
+#  - item.username not in bootstrap_core_system_groups.stdout_lines
 #  tags:
-#    - bootstrap_core
+#  - bootstrap_core
 #
 ## There may be situation when the user we want to create already exists
 ## and is used for provisioning by current ansible process.
@@ -48,15 +48,15 @@
 #  become: yes
 #  when: item.username != ansible_user_id
 #  tags:
-#    - bootstrap_core
+#  - bootstrap_core
 #
 #- name: '[adduser.info.yml] Add users to corresponding groups only if these groups exist'
 #  user: name={{ item[0].username }} groups={{ item[1] }} append=yes
 #  with_subelements:
-#    - "{{ bootstrap_core_users }}"
-#    - groups
+#  - "{{ bootstrap_core_users }}"
+#  - groups
 #  when: item[1] in bootstrap_core_system_groups.stdout_lines
 #  become: yes
 #  tags:
-#    - bootstrap_core
+#  - bootstrap_core
 ...

@@ -4,7 +4,7 @@
   command: "localectl set-locale LANG={{ bootstrap_core_locale }}"
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: '[RedHat] Upgrading distro with yum'
   yum:
@@ -13,12 +13,12 @@
     update_cache: yes
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: '[RedHat] Create specified users'
   user: name={{ item.username }} password={{ item.passwd }} groups={{ item.groups }} append=yes
   with_items: "{{ bootstrap_core_users }}"
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 ...

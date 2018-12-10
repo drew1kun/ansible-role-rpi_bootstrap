@@ -6,7 +6,7 @@
     state: present
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 #=====================================
 
 #========== DISTRO UPGRADE ===========
@@ -15,7 +15,7 @@
   become: yes
   when: ansible_os_family == 'Debian'
   tags:
-    - bootstrap_core
+  - bootstrap_core
 #=====================================
 
 #========= UPDATING FIRMWARE: ========
@@ -23,18 +23,18 @@
   apt: name=rpi-update state=latest force=yes
   become: yes
   when:
-    - bootstrap_core_firmware_update
-    - ansible_os_family == 'Debian'
+  - bootstrap_core_firmware_update
+  - ansible_os_family == 'Debian'
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: '[Debian] Updating firmware'
   command: rpi-update
   become: yes
   when:
-    - bootstrap_core_firmware_update
-    - ansible_os_family == 'Debian'
+  - bootstrap_core_firmware_update
+  - ansible_os_family == 'Debian'
   tags:
-    - bootstrap_core
+  - bootstrap_core
 #=====================================
 ...

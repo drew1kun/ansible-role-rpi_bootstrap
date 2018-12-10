@@ -5,15 +5,15 @@
 - name: "[main] Include dependencies installation tasks"
   include_tasks: dependencies.yml
   tags:
-    - bootstrap_core
-    - bootstrap_core_dependencies
+  - bootstrap_core
+  - bootstrap_core_dependencies
 
 # SHELL PROMPT
 - name: "[main] Include shell prompt configuration tasks"
   include_tasks: prompt.yml
   tags:
-    - bootstrap_core
-    - bootstrap_core_prompt
+  - bootstrap_core
+  - bootstrap_core_prompt
 
 # SYSTEM CONFIG
 - name: "[main] Setting EDITOR and TERM environment variables"
@@ -30,13 +30,13 @@
     marker: "# {mark} ======== VIM role: Ansible managed block ========="
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: "[main] Setting hostname"
   hostname: name={{ bootstrap_core_hostname }}
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: "[main] Modifying /etc/hosts (IPv4)"
   lineinfile:
@@ -46,7 +46,7 @@
     backrefs: yes
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: "[main] Modifying /etc/hosts (IPv6)"
   lineinfile:
@@ -56,24 +56,24 @@
     backrefs: yes
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: "[main] Setting timezone"
   timezone: name=America/Vancouver
   become: yes
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 # OS-SPECIFIC TASKS
 - name: "[main] Include {{ ansible_os_family }}-specific vars"
   include_vars: "{{ ansible_os_family }}.yml"
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: "[main] Include {{ ansible_os_family }}-specific tasks for generating locales, upgrading distro etc."
   include_tasks: "{{ ansible_os_family }}.yml"
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 # Fully quoted because of the ':' on the line. See the Gotchas in the YAML docs.
 - name: "[main] Modify sudoers file: make sudo group members not being asked for sudo password"
@@ -86,7 +86,7 @@
   become: yes
   when: bootstrap_core_sudonopasswd is defined and true
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 # USERS
 - name: "[main] Create specified users"
@@ -100,7 +100,7 @@
   become: yes
   no_log: yes  # don't show password hash in output
   tags:
-    - bootstrap_core
+  - bootstrap_core
 
 - name: 'Change root password'
   user: name=root password={{ bootstrap_core_new_root_passwd }}

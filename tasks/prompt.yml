@@ -6,35 +6,35 @@
   stat: path=/etc/skel
   register: skel_stat
   tags:
-    - bootstrap_core
-    - bootstrap_core_prompt
+  - bootstrap_core
+  - bootstrap_core_prompt
 
 - name: "[prompt] Check if /etc/skel.dist exists (in case /etc/skel was already backed up)"
   stat: path=/etc/skel.dist
   register: skel_dist_stat
   tags:
-    - bootstrap_core
-    - bootstrap_core_prompt
+  - bootstrap_core
+  - bootstrap_core_prompt
 
 - name: "[prompt] Backup distro /etc/skel"
   command: mv /etc/skel /etc/skel.dist
   become: yes
   when: skel_stat.stat.exists == True and skel_dist_stat.stat.exists == False
   tags:
-    - bootstrap_core
-    - bootstrap_core_prompt
+  - bootstrap_core
+  - bootstrap_core_prompt
 
 - name: "[prompt] Copying /etc/skel contents"
   copy: src=etc_skel/ dest=/etc/skel
   become: yes
   tags:
-    - bootstrap_core
-    - bootstrap_core_prompt
+  - bootstrap_core
+  - bootstrap_core_prompt
 
 - name: "[prompt] Copying .bashrc and .profile to home directory of current user"
   copy: src=etc_skel/ dest="{{ ansible_env.HOME }}/"
   tags:
-    - bootstrap_core
-    - bootstrap_core_prompt
+  - bootstrap_core
+  - bootstrap_core_prompt
 #=====================================
 ...

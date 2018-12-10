@@ -20,11 +20,11 @@ galaxy_info:
     - 7
 
   galaxy_tags:
-    - minibian
-    - raspberrypi
-    - debian
-    - jessie
-    - stretch
+  - minibian
+  - raspberrypi
+  - debian
+  - jessie
+  - stretch
 
 dependencies:
 - drew-kun.rpi_expandfs
