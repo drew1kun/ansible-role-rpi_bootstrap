@@ -31,7 +31,7 @@ bootstrap_core_user0_passwd:
 bootstrap_core_sudonopasswd: yes
 
 bootstrap_core_users:
-- username: 'drew'
+- username: user
   passwd: "{{ bootstrap_core_user0_passwd }}"
   groups:
   - "{{ bootstrap_core_su_group }}"

@@ -19,7 +19,9 @@
 - name: "[prompt] Backup distro /etc/skel"
   command: mv /etc/skel /etc/skel.dist
   become: yes
-  when: skel_stat.stat.exists == True and skel_dist_stat.stat.exists == False
+  when:
+  - skel_stat.stat.exists
+  - not skel_dist_stat.stat.exists
   tags:
   - bootstrap_core
   - bootstrap_core_prompt
