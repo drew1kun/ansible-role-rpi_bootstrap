@@ -125,51 +125,65 @@ Or Python2.7:
 Dependencies
 ------------
 
- - [drew_kun.rpi_expandfs][rpi_expandfs-galaxy-link]
- - [drew_kun.rpi3_network][rpi3_network-galaxy-link]
+ - [drew-kun.rpi_expandfs][rpi_expandfs-galaxy-link]
+ - [drew-kun.rpi3_network][rpi3_network-galaxy-link]
 
 Install them from galaxy:
 
-    ansible-galaxy install drew_kun.rpi_expandfs drew_kun.rpi3_network
+    ansible-galaxy install drew-kun.rpi_expandfs drew-kun.rpi3_network
 
 Example Playbook
 ----------------
 
 ```yaml
-- hosts: raspberrypi
-  gather_facts: yes
+ # Run this bootstrap role as root, but do not run other roles within the playbook as root:
+ name: 'Running bootstrap-core play as root user'
+  hosts: raspberrypi_3
+  remote_user: root
 
+  # User ansible-vault encrypted variables file:
   vars_files:
   - vars/vault.yml
 
+  # It's a good idea to prompt for a user's password to be set dynamically:
+  vars_prompt:
+  - name: pihole_playbook_prompt_user0_passwd
+    prompt: "password for user0 ('{{ vault_bootstrap_core_users[0].username }}') to be set in 'bootstrap_core' play"
+    private: yes
+    encrypt: "sha512_crypt"
+    confirm: yes
+    salt_size: 16
+
   roles:
-  - drew_kun.bootstrap_core
+  - role: drew-kun.bootstrap_core
     bootstrap_core_new_root_passwd: "{{ vault_bootstrap_core_new_root_passwd }}"
-    bootstrap_core_user0_passwd: "{{ vault_bootstrap_core_user0_passwd }}"
-    bootstrap_core__rpi3_network_wifi_APs:
-    - id_str: home
-      hidden: no
-      essid: "{{ vault_bootstrap_core__rpi3_network_wifi_APs[0].essid }}"
-      passphrase: "{{ vault_bootstrap_core__rpi3_network_wifi_APs[0].passphrase }}"
-      priority: 10
+    bootstrap_core_users:
+    - username: "{{ vault_bootstrap_core_users[0].username }}"
+      passwd: "{{ pihole_playbook_prompt_user0_passwd }}"
+      groups:
+      - "{{ bootstrap_core_su_group }}"
+    bootstrap_core__rpi3_network_wifi_APs: "{{ vault_bootstrap_core__rpi3_network_wifi_APs }}"
 ```
 
 *vars/vault.yml*:
 
 ```yaml
-# All these are secrets of course:
+# Or you can specify the password hash statically:
 # P@$$w0rd
 vault_bootstrap_core_new_root_passwd:
   $6$pXE2fAZd0vgD77JQ$.c6I7FAFd/b1VV3Q4fm6VKnC29eXf3X.5TR5acIJ9xr3y/Bt0umoEH.b8nX3SqcZgZ3h5uhaoqNN6EAsU69Yn.
 
-# P@$$w0rd
-vault_bootstrap_core_user0_passwd:
-  $6$H7pExvH3BNgE4eFk$YWRzY/GMsfbXJK6cfx4hgR1c8ayY78ifIJMOXR91NA3xeo.T8Yb8E3SiQ2DYQLTohcX.WV1qGjGiQXdq6j5HB1
+# Usernames may be secrets too:
+vault_bootstrap_core_users:
+- username: drew
 
+# Wireless networks for rpi3_network role (which is dependency for current role):
 vault_bootstrap_core__rpi3_network_wifi_APs:
-# only sensitive stuff goes here:
-- essid: YourSensitiveESSID
+- id_str: home_wifi
+  hidden: no
+  essid: YourSensitiveESSID
   passphrase: YourSecureWPA_Passphrase
+  priority: 1
 ```
 
 License
@@ -183,11 +197,11 @@ Author Information
 Andrew Shagayev | [e-mail](mailto:drewshg@gmail.com)
 
 [role-badge]: https://img.shields.io/badge/role-drew--kun.bootstrap__core-green.svg
-[galaxy-link]: https://galaxy.ansible.com/drew_kun/bootstrap_core/
+[galaxy-link]: https://galaxy.ansible.com/drew-kun/bootstrap_core/
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-link]: https://raw.githubusercontent.com/drew_kun/ansible-bootstrap_core/master/LICENSE
+[mit-link]: https://raw.githubusercontent.com/drew-kun/ansible-bootstrap_core/master/LICENSE
 [minibian-link]: https://minibianpi.wordpress.com/
 [centos-link]: https://wiki.centos.org/Download
-[rpi_expandfs-galaxy-link]: https://galaxy.ansible.com/drew_kun/rpi_expandfs/
-[rpi3_network-galaxy-link]: https://galaxy.ansible.com/drew_kun/rpi3_network/
+[rpi_expandfs-galaxy-link]: https://galaxy.ansible.com/drew-kun/rpi_expandfs/
+[rpi3_network-galaxy-link]: https://galaxy.ansible.com/drew-kun/rpi3_network/
 [ansible-vault-link]: https://docs.ansible.com/ansible/latest/user_guide/vault.html
