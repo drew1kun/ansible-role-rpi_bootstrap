@@ -103,7 +103,7 @@
   - bootstrap_core
 
 - name: "[main] Setting timezone"
-  timezone: name=America/Vancouver
+  timezone: name="{{ bootstrap_core_timezone }}" hwclock=UTC
   become: yes
   tags:
   - bootstrap_core

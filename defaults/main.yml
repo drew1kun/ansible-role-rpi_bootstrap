@@ -42,10 +42,11 @@ bootstrap_core_ralink_firmware: no
 
 bootstrap_core_firmware_update: no
 
-bootstrap_core_hostname: raspberry.localdomain
+bootstrap_core_hostname: raspberry.domain
 
 bootstrap_core_locale: en_US.UTF-8
 
+bootstrap_core_timezone: UTC
 
 # Overriding rpi3_network role defaults
 # This is needed for passing the vault-encrypted values to network role as a dependancy from playbooks.

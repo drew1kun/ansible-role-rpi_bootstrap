@@ -83,7 +83,8 @@ Role Variables
 | **bootstrap_core_sudonopasswd** | Make users from 'sudo' group stop being asked for sudo password | `yes` |
 | **bootstrap_core_users** | List of users with passwords and groups to be added to system | see [`defaults/main.yml`](defaults/main.yml#L33) |
 | **bootstrap_core_firmware_update** | Wether to update firmware with rpi-update | `no` |
-| **bootstrap_core_hostname** | Hostname to be configured for the system | `raspberry.localdomain` |
+| **bootstrap_core_timezone** | Timezone to be configured for the system | `UTC` |
+| **bootstrap_core_hostname** | Hostname to be configured for the system | `raspberry.domain` |
 | **bootstrap_core_locale** | Locale to be configured | `en_US.UTF-8` |
 | **bootstrap_core__rpi3_network_wifi_APs** | this overrides the rpi3_network_wifi_APs var of rpi3_network dependency role | see [`defaults/main.yml`](defaults/main.yml#L53) |
 
