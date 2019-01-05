@@ -11,6 +11,8 @@
     name: '*'
     state: latest
     update_cache: yes
+  register: bootstrap_core_upgrade_result
+  until: bootstrap_core_upgrade_result is succeeded
   become: yes
   tags:
   - bootstrap_core

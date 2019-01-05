@@ -13,6 +13,8 @@
 - name: '[Debian] Upgrading distro'
   apt: upgrade=dist autoclean=yes autoremove=yes
   become: yes
+  register: bootstrap_core_upgrade_result
+  until: bootstrap_core_upgrade_result is succeeded
   when: ansible_os_family == 'Debian'
   tags:
   - bootstrap_core
@@ -22,6 +24,8 @@
 - name: '[Debian] Installing latest rpi-update'
   apt: name=rpi-update state=latest force=yes
   become: yes
+  register: bootstrap_core_upgrade_result
+  until: bootstrap_core_upgrade_result is succeeded
   when:
   - bootstrap_core_firmware_update
   - ansible_os_family == 'Debian'
