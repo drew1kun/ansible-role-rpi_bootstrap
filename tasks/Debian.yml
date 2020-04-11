@@ -15,7 +15,7 @@
   become: yes
   register: bootstrap_core_upgrade_result
   until: bootstrap_core_upgrade_result is succeeded
-  when: ansible_os_family == 'Debian'
+  when: "'Debian' in ansible_os_family"
   tags:
   - bootstrap_core
 #=====================================
@@ -28,7 +28,7 @@
   until: bootstrap_core_upgrade_result is succeeded
   when:
   - bootstrap_core_firmware_update
-  - ansible_os_family == 'Debian'
+  - "'Debian' in ansible_os_family"
   tags:
   - bootstrap_core
 
@@ -37,7 +37,7 @@
   become: yes
   when:
   - bootstrap_core_firmware_update
-  - ansible_os_family == 'Debian'
+  - "'Debian' in ansible_os_family"
   tags:
   - bootstrap_core
 #=====================================
