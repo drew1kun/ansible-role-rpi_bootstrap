@@ -2,8 +2,8 @@
 # tasks file for ansible-bootstrap_core
 
 # DEPENDENCIES
-- name: "[main] Include dependencies installation tasks"
-  include_tasks: dependencies.yml
+- name: "[main] Import dependencies installation tasks"
+  import_tasks: dependencies.yml
   tags:
   - bootstrap_core
   - bootstrap_core_dependencies
@@ -53,8 +53,8 @@
   no_log: yes  # don't show password hash in output
 
 # SHELL PROMPT
-- name: "[main] Include shell prompt configuration tasks"
-  include_tasks: prompt.yml
+- name: "[main] Import shell prompt configuration tasks"
+  import_tasks: prompt.yml
   tags:
   - bootstrap_core
   - bootstrap_core_prompt
