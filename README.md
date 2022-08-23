@@ -126,12 +126,12 @@ Or Python2.7:
 Dependencies
 ------------
 
- - [drew-kun.rpi_expandfs][rpi_expandfs-galaxy-link]
- - [drew-kun.rpi3_network][rpi3_network-galaxy-link]
+ - [drew1kun.rpi_expandfs][rpi_expandfs-galaxy-link]
+ - [drew1kun.rpi3_network][rpi3_network-galaxy-link]
 
 Install them from galaxy:
 
-    ansible-galaxy install drew-kun.rpi_expandfs drew-kun.rpi3_network
+    ansible-galaxy install drew1kun.rpi_expandfs drew1kun.rpi3_network
 
 Example Playbook
 ----------------
@@ -156,7 +156,7 @@ Example Playbook
     salt_size: 16
 
   roles:
-  - role: drew-kun.bootstrap_core
+  - role: drew1kun.bootstrap_core
     bootstrap_core_new_root_passwd: "{{ vault_bootstrap_core_new_root_passwd }}"
     bootstrap_core_users:
     - username: "{{ vault_bootstrap_core_users[0].username }}"
@@ -198,11 +198,11 @@ Author Information
 Andrew Shagayev | [e-mail](mailto:drewshg@gmail.com)
 
 [role-badge]: https://img.shields.io/badge/role-drew--kun.bootstrap__core-green.svg
-[galaxy-link]: https://galaxy.ansible.com/drew-kun/bootstrap_core/
+[galaxy-link]: https://galaxy.ansible.com/drew1kun/bootstrap_core/
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-link]: https://raw.githubusercontent.com/drew-kun/ansible-bootstrap_core/master/LICENSE
+[mit-link]: https://raw.githubusercontent.com/drew1kun/ansible-bootstrap_core/master/LICENSE
 [minibian-link]: https://minibianpi.wordpress.com/
 [centos-link]: https://wiki.centos.org/Download
-[rpi_expandfs-galaxy-link]: https://galaxy.ansible.com/drew-kun/rpi_expandfs/
-[rpi3_network-galaxy-link]: https://galaxy.ansible.com/drew-kun/rpi3_network/
+[rpi_expandfs-galaxy-link]: https://galaxy.ansible.com/drew1kun/rpi_expandfs/
+[rpi3_network-galaxy-link]: https://galaxy.ansible.com/drew1kun/rpi3_network/
 [ansible-vault-link]: https://docs.ansible.com/ansible/latest/user_guide/vault.html

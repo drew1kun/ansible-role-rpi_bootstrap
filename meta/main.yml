@@ -27,8 +27,8 @@ galaxy_info:
   - stretch
 
 dependencies:
-- role: drew-kun.rpi_expandfs
-- role: drew-kun.rpi3_network
+- role: drew1kun.rpi_expandfs
+- role: drew1kun.rpi3_network
   rpi3_network_wifi_APs: "{{ bootstrap_core__rpi3_network_wifi_APs }}"
   when: ansible_os_family == 'Debian'
 ...
