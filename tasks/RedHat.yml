@@ -23,4 +23,3 @@
   become: yes
   tags:
   - bootstrap_core
-...

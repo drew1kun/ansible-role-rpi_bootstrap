@@ -1,6 +1,6 @@
 ---
 #========= CONFIGURING PROMPT ========
-# required because 'command: mv ...' will return error
+# required because 'command: mv ' will return error
 # if /etc/skel does not exist
 - name: "[prompt] Check if /etc/skel exists"
   stat: path=/etc/skel
@@ -39,4 +39,3 @@
   - bootstrap_core
   - bootstrap_core_prompt
 #=====================================
-...

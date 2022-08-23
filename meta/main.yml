@@ -31,4 +31,3 @@ dependencies:
 - role: drew1kun.rpi3_network
   rpi3_network_wifi_APs: "{{ bootstrap_core__rpi3_network_wifi_APs }}"
   when: ansible_os_family == 'Debian'
-...
