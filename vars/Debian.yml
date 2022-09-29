@@ -1,2 +1,2 @@
 ---
-bootstrap_core_su_group: sudo
+rpi_bootstrap_su_group: sudo

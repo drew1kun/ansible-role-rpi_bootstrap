@@ -6,28 +6,28 @@
     - locales
     state: present
   become: yes
-  register: bootstrap_core_dep_result
-  until: bootstrap_core_dep_result is succeeded
+  register: rpi_bootstrap_dep_result
+  until: rpi_bootstrap_dep_result is succeeded
   tags:
-  - bootstrap_core
-  - bootstrap_core_dependencies
+  - rpi_bootstrap
+  - rpi_bootstrap_dependencies
 
 - name: '[dependencies] Install pi-bluetooth package'
   package: name=pi-bluetooth state=present
   become: yes
-  register: bootstrap_core_dep_result
-  until: bootstrap_core_dep_result is succeeded
-  when: bootstrap_core_bluetooth
+  register: rpi_bootstrap_dep_result
+  until: rpi_bootstrap_dep_result is succeeded
+  when: rpi_bootstrap_bluetooth
   tags:
-  - bootstrap_core
-  - bootstrap_core_dependencies
+  - rpi_bootstrap
+  - rpi_bootstrap_dependencies
 
 - name: '[dependencies] Install ralink firmware package'
   package: name=firmware-ralink state=present
   become: yes
-  register: bootstrap_core_dep_result
-  until: bootstrap_core_dep_result is succeeded
-  when: bootstrap_core_ralink_firmware
+  register: rpi_bootstrap_dep_result
+  until: rpi_bootstrap_dep_result is succeeded
+  when: rpi_bootstrap_ralink_firmware
   tags:
-  - bootstrap_core
-  - bootstrap_core_dependencies
+  - rpi_bootstrap
+  - rpi_bootstrap_dependencies

@@ -1,8 +1,8 @@
 galaxy_info:
-  role_name: bootstrap_core
+  role_name: rpi_bootstrap
   author: Andrew Shagayev
 
-  description: role for RaspberryPi vanilla Minibian (Debian based) distro bootstrap.
+  description: Ansible role for RaspberryPi vanilla Minibian (Debian based) distro bootstrap.
 
   license: MIT
 
@@ -15,6 +15,7 @@ galaxy_info:
     versions:
     - jessie
     - stretch
+    - bullseye
   - name: EL
     versions:
     - 7
@@ -22,12 +23,13 @@ galaxy_info:
   galaxy_tags:
   - minibian
   - raspberrypi
+  - raspberry_pi_os
   - debian
   - jessie
   - stretch
+  - bullseye
 
 dependencies:
-- role: drew1kun.rpi_expandfs
-- role: drew1kun.rpi3_network
-  rpi3_network_wifi_APs: "{{ bootstrap_core__rpi3_network_wifi_APs }}"
+- role: drew1kun.rpi_network
+  rpi_network_wifi_APs: "{{ rpi_bootstrap__rpi_network_wifi_APs }}"
   when: ansible_os_family == 'Debian'

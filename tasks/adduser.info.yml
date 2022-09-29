@@ -7,55 +7,55 @@
 #
 #- name: '[adduser.info.yml] Check if users do not already exist'
 #  command: "id -u {{ item.username }}"
-#  register: bootstrap_core_users_stat
-#  with_items: "{{ bootstrap_core_users }}"
+#  register: rpi_bootstrap_users_stat
+#  with_items: "{{ rpi_bootstrap_users }}"
 #  changed_when: false
 #  failed_when: false
 #  tags:
-#  - bootstrap_core
+#  - rpi_bootstrap
 #
-#- name: '[adduser.info.yml] Flatten bootstrap_core_users_stat dictionary'
+#- name: '[adduser.info.yml] Flatten rpi_bootstrap_users_stat dictionary'
 #  set_fact:
-#    bootstrap_core_users_exist: "{{ bootstrap_core_users_exist|default({}) | combine( {item.item.username: item.rc} ) }}"
-#  with_items: "{{ bootstrap_core_users_stat.results }}"
+#    rpi_bootstrap_users_exist: "{{ rpi_bootstrap_users_exist|default({}) | combine( {item.item.username: item.rc} ) }}"
+#  with_items: "{{ rpi_bootstrap_users_stat.results }}"
 #  changed_when: false
 #  tags:
-#  - bootstrap_core
+#  - rpi_bootstrap
 #
 #- name: '[adduser.info.yml] Check if the group exists in the system'
 #  shell: "getent group | cut -d: -f1"
-#  register: bootstrap_core_system_groups
+#  register: rpi_bootstrap_system_groups
 #  changed_when: false
 #  tags:
-#  - bootstrap_core
+#  - rpi_bootstrap
 #
 #- name: '[adduser.info.yml] Create specified users using "adduser" only when neither user nor its group do not exist'
 #  shell: echo "{{ item.passwd }} | adduser "{{ item.username }}"
-#  with_items: "{{ bootstrap_core_users }}"
+#  with_items: "{{ rpi_bootstrap_users }}"
 #  become: yes
 #  when:
-#  - bootstrap_core_users_exist.{{ item.username }} != 0  # Produces Warning. I haven't find the way to get rid of '{'
-#  - item.username not in bootstrap_core_system_groups.stdout_lines
+#  - rpi_bootstrap_users_exist.{{ item.username }} != 0  # Produces Warning. I haven't find the way to get rid of '{'
+#  - item.username not in rpi_bootstrap_system_groups.stdout_lines
 #  tags:
-#  - bootstrap_core
+#  - rpi_bootstrap
 #
 ## There may be situation when the user we want to create already exists
 ## and is used for provisioning by current ansible process.
 ## then changing the password will break the role execution with "Authentication failed" error.
 #- name: '[adduser.info.yml] Set passwords for users only when user is not currently authenticated for this provisioning'
 #  user: name={{ item.username }} password={{ item.passwd }}
-#  with_items: "{{ bootstrap_core_users }}"
+#  with_items: "{{ rpi_bootstrap_users }}"
 #  become: yes
 #  when: item.username != ansible_user_id
 #  tags:
-#  - bootstrap_core
+#  - rpi_bootstrap
 #
 #- name: '[adduser.info.yml] Add users to corresponding groups only if these groups exist'
 #  user: name={{ item[0].username }} groups={{ item[1] }} append=yes
 #  with_subelements:
-#  - "{{ bootstrap_core_users }}"
+#  - "{{ rpi_bootstrap_users }}"
 #  - groups
-#  when: item[1] in bootstrap_core_system_groups.stdout_lines
+#  when: item[1] in rpi_bootstrap_system_groups.stdout_lines
 #  become: yes
 #  tags:
-#  - bootstrap_core
+#  - rpi_bootstrap

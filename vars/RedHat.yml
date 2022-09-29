@@ -1,2 +1,2 @@
 ---
-bootstrap_core_su_group: wheel
+rpi_bootstrap_su_group: wheel

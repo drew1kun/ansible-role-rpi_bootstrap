@@ -1,23 +1,21 @@
 ---
-# tasks file for ansible-bootstrap_core
+# tasks file for ansible-rpi_bootstrap
 
 # DEPENDENCIES
 - name: "[main] Import dependencies installation tasks"
   import_tasks: dependencies.yml
   tags:
-  - bootstrap_core
-  - bootstrap_core_dependencies
+  - rpi_bootstrap
+  - rpi_bootstrap_dependencies
 
 # OS-SPECIFIC VARS & TASKS
 - name: "[main] Include {{ ansible_os_family }}-specific vars"
   include_vars: "{{ ansible_os_family }}.yml"
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 - name: "[main] Include {{ ansible_os_family }}-specific tasks for generating locales, upgrading distro etc."
   include_tasks: "{{ ansible_os_family }}.yml"
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 # USERS
 - name: "[main] Create specified users"
@@ -27,43 +25,42 @@
     groups: "{{ item.groups }}"
     append: yes
     shell: /bin/bash
-  with_items: "{{ bootstrap_core_users }}"
+  with_items: "{{ rpi_bootstrap_users }}"
   become: yes
   no_log: yes  # don't show password hash in output
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 # Fully quoted because of the ':' on the line. See the Gotchas in the YAML docs.
 - name: "[main] Modify sudoers file: make sudo group members not being asked for sudo password"
   lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: '^%{{ bootstrap_core_su_group }}\s'
-    line: '%{{ bootstrap_core_su_group }} ALL=(ALL) NOPASSWD: ALL'
+    regexp: '^%{{ rpi_bootstrap_su_group }}\s'
+    line: '%{{ rpi_bootstrap_su_group }} ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
   become: yes
-  when: bootstrap_core_sudonopasswd is defined and true
-  tags:
-  - bootstrap_core
+  when: rpi_bootstrap_sudonopasswd is defined and true
+  tags: rpi_bootstrap
 
 - name: 'Change root password'
-  user: name=root password={{ bootstrap_core_new_root_passwd }}
+  user: name=root password={{ rpi_bootstrap_new_root_passwd }}
   when: ansible_user_id != 'root'
   become: yes
   no_log: yes  # don't show password hash in output
+  tags: rpi_bootstrap
 
 # SHELL PROMPT
 - name: "[main] Import shell prompt configuration tasks"
   import_tasks: prompt.yml
+  when: rpi_bootstrap_prompt
   tags:
-  - bootstrap_core
-  - bootstrap_core_prompt
+  - rpi_bootstrap
+  - rpi_bootstrap_prompt
 
 # SYSTEM CONFIG
 - name: "[main] Setting EDITOR and TERM environment variables"
   blockinfile:
     path: /etc/profile.d/env_var.sh
-    follow: yes
     create: yes
     mode: 0644
     owner: root
@@ -73,37 +70,32 @@
       export TERM="xterm-256color"  # For vim colors in tmux
     marker: "# {mark} ======== VIM role: Ansible managed block ========="
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 - name: "[main] Setting hostname"
-  hostname: name={{ bootstrap_core_hostname }}
+  hostname: name={{ rpi_bootstrap_hostname }}
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 - name: "[main] Modifying /etc/hosts (IPv4)"
   lineinfile:
     path: /etc/hosts
     regexp: '(127.0.0.1)( *|\t*)(localhost)(.*)'
-    line: '\1\2\3 {{ bootstrap_core_hostname }}'
+    line: '\1\2\3 {{ rpi_bootstrap_hostname }}'
     backrefs: yes
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 - name: "[main] Modifying /etc/hosts (IPv6)"
   lineinfile:
     path: /etc/hosts
     regexp: '(::1)( *|\t*)(localhost ip6-localhost ip6-loopback)(.*)'
-    line: '\1\2\3 {{ bootstrap_core_hostname }}'
+    line: '\1\2\3 {{ rpi_bootstrap_hostname }}'
     backrefs: yes
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
 - name: "[main] Setting timezone"
-  timezone: name="{{ bootstrap_core_timezone }}" hwclock=UTC
+  timezone: name="{{ rpi_bootstrap_timezone }}" hwclock=UTC
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap

@@ -1,43 +1,39 @@
 ---
 #=========== LOCALE SETUP ============
-- name: '[Debian] Set up en_US.UTF-8 locale'
+- name: "[Debian] Set up {{ rpi_bootstrap_locale }} locale"
   locale_gen:
-    name: "{{ bootstrap_core_locale }}"
+    name: "{{ rpi_bootstrap_locale }}"
     state: present
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 #=====================================
 
 #========== DISTRO UPGRADE ===========
-- name: '[Debian] Upgrading distro'
+- name: "[Debian] Upgrading distro"
   apt: upgrade=dist autoclean=yes autoremove=yes
   become: yes
-  register: bootstrap_core_upgrade_result
-  until: bootstrap_core_upgrade_result is succeeded
+  register: rpi_bootstrap_upgrade_result
+  until: rpi_bootstrap_upgrade_result is succeeded
   when: "'Debian' in ansible_os_family"
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 #=====================================
 
 #========= UPDATING FIRMWARE: ========
-- name: '[Debian] Installing latest rpi-update'
+- name: "[Debian] Installing latest rpi-update"
   apt: name=rpi-update state=latest force=yes
   become: yes
-  register: bootstrap_core_upgrade_result
-  until: bootstrap_core_upgrade_result is succeeded
+  register: rpi_bootstrap_upgrade_result
+  until: rpi_bootstrap_upgrade_result is succeeded
   when:
-  - bootstrap_core_firmware_update
+  - rpi_bootstrap_firmware_update
   - "'Debian' in ansible_os_family"
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
-- name: '[Debian] Updating firmware'
+- name: "[Debian] Updating firmware"
   command: rpi-update
   become: yes
   when:
-  - bootstrap_core_firmware_update
+  - rpi_bootstrap_firmware_update
   - "'Debian' in ansible_os_family"
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 #=====================================

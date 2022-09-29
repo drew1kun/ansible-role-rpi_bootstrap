@@ -1,25 +1,22 @@
 ---
 # CentOS does not have locales package available, but it has localectl command:
-- name: '[RedHat] Set up en_US.UTF-8 locale'
-  command: "localectl set-locale LANG={{ bootstrap_core_locale }}"
+- name: "[RedHat] Set up {{ rpi_bootstrap_locale }} locale"
+  command: "localectl set-locale LANG={{ rpi_bootstrap_locale }}"
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
-- name: '[RedHat] Upgrading distro with yum'
+- name: "[RedHat] Upgrading distro with yum"
   yum:
     name: '*'
     state: latest
     update_cache: yes
-  register: bootstrap_core_upgrade_result
-  until: bootstrap_core_upgrade_result is succeeded
+  register: rpi_bootstrap_upgrade_result
+  until: rpi_bootstrap_upgrade_result is succeeded
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
 
-- name: '[RedHat] Create specified users'
+- name: "[RedHat] Create specified users"
   user: name={{ item.username }} password={{ item.passwd }} groups={{ item.groups }} append=yes
-  with_items: "{{ bootstrap_core_users }}"
+  with_items: "{{ rpi_bootstrap_users }}"
   become: yes
-  tags:
-  - bootstrap_core
+  tags: rpi_bootstrap
