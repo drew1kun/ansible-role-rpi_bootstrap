@@ -3,7 +3,7 @@
 [![MIT licensed][mit-badge]][mit-link]
 [![Galaxy Role][role-badge]][galaxy-link]
 
-Ansible role for RaspberryPi vanilla bootstrap.
+Ansible role for Raspberry Pi vanilla bootstrap.
 
 Role accomplishes the following:
 
