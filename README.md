@@ -9,7 +9,7 @@ Role accomplishes the following:
 
  - configures hostname
  - configures timezone
- - configures network (for now only for Debian)
+ - configures network (for now only on Debian)
  - updates firmware
  - creates all specified users and adds them to all specified groups
  - modifies sudoers so group %sudo(Debian) or %wheel(Centos) not to be asked for passwords
