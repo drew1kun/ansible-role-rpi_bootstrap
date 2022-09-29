@@ -2,7 +2,7 @@ galaxy_info:
   role_name: rpi_bootstrap
   author: Andrew Shagayev
 
-  description: Ansible role for RaspberryPi vanilla Minibian (Debian based) distro bootstrap.
+  description: Ansible role for Raspberry Pi vanilla Minibian (Debian based) distro bootstrap.
 
   license: MIT
 
