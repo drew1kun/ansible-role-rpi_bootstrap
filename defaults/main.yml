@@ -1,6 +1,19 @@
 ---
 # defaults file for ansible-rpi_bootstrap
 
+rpi_bootstrap_hostname: "{{ inventory_hostname }}"
+rpi_bootstrap_locale: en_US.UTF-8
+rpi_bootstrap_timezone: UTC
+rpi_bootstrap_sudonopasswd: true
+rpi_bootstrap_bluetooth: true
+rpi_bootstrap_ralink_firmware: false
+rpi_bootstrap_firmware_update_to_bleeding_edge: false  # Recommended to keep 'false'
+rpi_bootstrap_prompt: false
+rpi_bootstrap_enable_root_user: false  # Recommended to keep 'false'
+
+
+# BETTER KEEP THE FOLLOWING IN VAULT:
+#
 # CREATE YOUR OWN PASSWORD HASHES
 # NOTE:Following instructions for some reason does not work on Mac
 #
@@ -24,31 +37,13 @@
 rpi_bootstrap_new_root_passwd:
   $6$pXE2fAZd0vgD77JQ$.c6I7FAFd/b1VV3Q4fm6VKnC29eXf3X.5TR5acIJ9xr3y/Bt0umoEH.b8nX3SqcZgZ3h5uhaoqNN6EAsU69Yn.
 
-# user0 password SHA512 hash with random salt
-rpi_bootstrap_user0_passwd:
-  $6$H7pExvH3BNgE4eFk$YWRzY/GMsfbXJK6cfx4hgR1c8ayY78ifIJMOXR91NA3xeo.T8Yb8E3SiQ2DYQLTohcX.WV1qGjGiQXdq6j5HB1
-
-rpi_bootstrap_sudonopasswd: yes
-
 rpi_bootstrap_users:
 - username: user
-  passwd: "{{ rpi_bootstrap_user0_passwd }}"
+  # SHA512 hash with random salt:
+  passwd: $6$H7pExvH3BNgE4eFk$YWRzY/GMsfbXJK6cfx4hgR1c8ayY78ifIJMOXR91NA3xeo.T8Yb8E3SiQ2DYQLTohcX.WV1qGjGiQXdq6j5HB1
   groups:
   - "{{ rpi_bootstrap_su_group }}"
 
-rpi_bootstrap_bluetooth: true
-
-rpi_bootstrap_ralink_firmware: false
-
-rpi_bootstrap_firmware_update: false
-
-rpi_bootstrap_hostname: raspberry.domain
-
-rpi_bootstrap_locale: en_US.UTF-8
-
-rpi_bootstrap_timezone: UTC
-
-rpi_bootstrap_prompt: false
 # Overriding rpi_network role defaults
 # This is needed for passing the vault-encrypted values to network role as a dependancy from playbooks.
 # NOTE: please make sure you override this in your playbooks and encrypt all sensetive data with ansible-vault

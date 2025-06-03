@@ -1,0 +1,50 @@
+---
+- name: "[users] Create specified users"
+  ansible.builtin.user:
+    name: "{{ item.username }}"
+    password: "{{ item.passwd }}"
+    groups: "{{ item.groups }}"
+    append: true
+    shell: /bin/bash
+  loop: "{{ rpi_bootstrap_users|flatten(levels=1) }}"
+  become: true
+#  no_log: true  # don't show password hash in output
+  when: ansible_user_id != item.username
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_users' ]
+
+- name: "[users] Modify sudoers file: make sudo group members not being asked for sudo password"
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%{{ rpi_bootstrap_su_group }}\s'
+    line: '%{{ rpi_bootstrap_su_group }} ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+  become: true
+  when: rpi_bootstrap_sudonopasswd is defined and true
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_users' ]
+
+
+# Root user:
+- name: "[users] Modifications of 'root' user is not possible"
+  ansible.builtin.debug:
+    msg: |
+      Current session is using root user. While in some cases it's possible,
+      it's generally not a good idea to change the credentials for the user,
+      that is being used for current host management session.
+      Skipping root user management tasks.
+  when: ansible_user_id == 'root'
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_users' ]
+
+- name: '[users] Enable | Disable root user, set new password if enabled'
+  ansible.builtin.user:
+    name: root
+    password: >-
+      {{
+        rpi_bootstrap_new_root_passwd|default(omit)
+        if rpi_bootstrap_enable_root_user else omit
+      }}
+    password_lock: "{{ not rpi_bootstrap_enable_root_user|bool }}"
+  when: ansible_user_id != 'root'
+  become: true
+  no_log: true  # don't show password hash in output
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_users' ]

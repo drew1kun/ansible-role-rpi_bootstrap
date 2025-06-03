@@ -1,16 +1,16 @@
 ---
 #=========== LOCALE SETUP ============
-- name: "[Debian] Set up {{ rpi_bootstrap_locale }} locale"
-  locale_gen:
+- name: "[Debian] Set {{ rpi_bootstrap_locale }} locale"
+  community.general.locale_gen:
     name: "{{ rpi_bootstrap_locale }}"
     state: present
-  become: yes
+  become: true
   tags: rpi_bootstrap
 #=====================================
 
 #========== DISTRO UPGRADE ===========
-- name: "[Debian] Upgrading distro"
-  apt: upgrade=dist autoclean=yes autoremove=yes
+- name: "[Debian] Full upgrade (including firmware to the latest STABLE version)"
+  ansible.builtin.apt: upgrade=full autoclean=yes autoremove=yes
   become: yes
   register: rpi_bootstrap_upgrade_result
   until: rpi_bootstrap_upgrade_result is succeeded
@@ -20,20 +20,20 @@
 
 #========= UPDATING FIRMWARE: ========
 - name: "[Debian] Installing latest rpi-update"
-  apt: name=rpi-update state=latest force=yes
+  ansible.builtin.apt: name=rpi-update state=latest force=yes
   become: yes
   register: rpi_bootstrap_upgrade_result
   until: rpi_bootstrap_upgrade_result is succeeded
   when:
-  - rpi_bootstrap_firmware_update
-  - "'Debian' in ansible_os_family"
+    - rpi_bootstrap_firmware_update_to_bleeding_edge
+    - "'Debian' in ansible_os_family"
   tags: rpi_bootstrap
 
-- name: "[Debian] Updating firmware"
-  command: rpi-update
-  become: yes
+- name: "[Debian] Updating firmware to Bleeding edge (MAY BE UNSTABLE)"
+  ansible.builtin.shell: yes | rpi-update
+  become: true
   when:
-  - rpi_bootstrap_firmware_update
-  - "'Debian' in ansible_os_family"
+    - rpi_bootstrap_firmware_update_to_bleeding_edge
+    - "'Debian' in ansible_os_family"
   tags: rpi_bootstrap
 #=====================================
