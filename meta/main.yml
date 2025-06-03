@@ -23,7 +23,3 @@ galaxy_info:
     - stretch
     - bullseye
     - centos_7
-dependencies:
-- role: drew1kun.rpi_network
-  rpi_network_wifi_APs: "{{ rpi_bootstrap__rpi_network_wifi_APs }}"
-  when: ansible_os_family == 'Debian'

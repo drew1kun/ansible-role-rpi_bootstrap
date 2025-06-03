@@ -1,0 +1,24 @@
+---
+- name: "[hostname] Setting hostname"
+  ansible.builtin.hostname:
+    name: "{{ rpi_bootstrap_hostname }}"
+  become: true
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_hostname' ]
+
+- name: "[hostname] Modifying /etc/hosts (IPv4)"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '(127.0.0.1)( *|\t*)(localhost)(.*)'
+    line: '\1\2\3 {{ rpi_bootstrap_hostname }}'
+    backrefs: true
+  become: true
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_hostname' ]
+
+- name: "[hostname] Modifying /etc/hosts (IPv6)"
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '(::1)( *|\t*)(localhost ip6-localhost ip6-loopback)(.*)'
+    line: '\1\2\3 {{ rpi_bootstrap_hostname }}'
+    backrefs: true
+  become: true
+  tags: [ 'rpi_bootstrap', 'rpi_bootstrap_hostname' ]
