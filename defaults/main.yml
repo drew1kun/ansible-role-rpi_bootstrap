@@ -5,10 +5,9 @@ rpi_bootstrap_hostname: "{{ inventory_hostname }}"
 rpi_bootstrap_locale: en_US.UTF-8
 rpi_bootstrap_timezone: UTC
 rpi_bootstrap_sudonopasswd: true
-rpi_bootstrap_bluetooth: true
+rpi_bootstrap_bluetooth: false
 rpi_bootstrap_ralink_firmware: false
 rpi_bootstrap_firmware_update_to_bleeding_edge: false  # Recommended to keep 'false'
-rpi_bootstrap_prompt: false
 rpi_bootstrap_enable_root_user: false  # Recommended to keep 'false'
 
 
