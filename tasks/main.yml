@@ -29,14 +29,14 @@
 # TIMEZONE
 - name: "[main] Setting timezone"
   ansible.builtin.timezone: name="{{ rpi_bootstrap_timezone }}" hwclock=UTC
-  become: yes
+  become: true
   tags: rpi_bootstrap
 
 # SYSTEM CONFIG
 - name: "[main] Setting EDITOR and TERM environment variables"
   ansible.builtin.blockinfile:
     path: /etc/profile.d/env_var.sh
-    create: yes
+    create: true
     mode: 0644
     owner: root
     group: root
@@ -44,5 +44,5 @@
       export EDITOR="/usr/bin/vim"
       export TERM="xterm-256color"  # For vim colors in tmux
     marker: "# {mark} ======== VIM role: Ansible managed block ========="
-  become: yes
+  become: true
   tags: rpi_bootstrap

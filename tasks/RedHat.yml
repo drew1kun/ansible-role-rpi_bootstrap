@@ -1,22 +1,37 @@
 ---
+# CENTOS 6/7
 # CentOS does not have locales package available, but it has localectl command:
 - name: "[RedHat] Set up {{ rpi_bootstrap_locale }} locale"
-  command: "localectl set-locale LANG={{ rpi_bootstrap_locale }}"
-  become: yes
+  ansible.builtin.command: "localectl set-locale LANG={{ rpi_bootstrap_locale }}"
+  become: true
   tags: rpi_bootstrap
 
-- name: "[RedHat] Upgrading distro with yum"
-  yum:
+- name: "[RedHat] Upgrading distro with yum on CentOS 6/7"
+  ansible.builtin.yum:
     name: '*'
     state: latest
-    update_cache: yes
+    update_cache: true
   register: rpi_bootstrap_upgrade_result
   until: rpi_bootstrap_upgrade_result is succeeded
-  become: yes
+  retries: 3
+  delay: 10
+  become: true
   tags: rpi_bootstrap
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version in ["6", "7"]
 
-- name: "[RedHat] Create specified users"
-  user: name={{ item.username }} password={{ item.passwd }} groups={{ item.groups }} append=yes
-  with_items: "{{ rpi_bootstrap_users }}"
-  become: yes
+- name: "[RedHat] Upgrading distro with dnf on CentOS 8/9"
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
+    update_cache: true
+  register: rpi_bootstrap_upgrade_result
+  until: rpi_bootstrap_upgrade_result is succeeded
+  retries: 3
+  delay: 10
+  become: true
   tags: rpi_bootstrap
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version in ["8", "9"]

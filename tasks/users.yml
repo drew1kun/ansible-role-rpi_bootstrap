@@ -8,7 +8,7 @@
     shell: /bin/bash
   loop: "{{ rpi_bootstrap_users|flatten(levels=1) }}"
   become: true
-#  no_log: true  # don't show password hash in output
+  no_log: true  # don't show password hash in output
   when: ansible_user_id != item.username
   tags: [ 'rpi_bootstrap', 'rpi_bootstrap_users' ]
 

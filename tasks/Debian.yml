@@ -10,8 +10,11 @@
 
 #========== DISTRO UPGRADE ===========
 - name: "[Debian] Full upgrade (including firmware to the latest STABLE version)"
-  ansible.builtin.apt: upgrade=full autoclean=yes autoremove=yes
-  become: yes
+  ansible.builtin.apt:
+    upgrade: full
+    autoclean: true
+    autoremove: true
+  become: true
   register: rpi_bootstrap_upgrade_result
   until: rpi_bootstrap_upgrade_result is succeeded
   when: "'Debian' in ansible_os_family"
@@ -20,8 +23,11 @@
 
 #========= UPDATING FIRMWARE: ========
 - name: "[Debian] Installing latest rpi-update"
-  ansible.builtin.apt: name=rpi-update state=latest force=yes
-  become: yes
+  ansible.builtin.apt:
+    name: rpi-update
+    state: latest
+    force: true
+  become: true
   register: rpi_bootstrap_upgrade_result
   until: rpi_bootstrap_upgrade_result is succeeded
   when:
